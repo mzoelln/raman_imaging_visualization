@@ -5,6 +5,8 @@ import math
 import plotly.express as px
 import plotly.graph_objects as go
 
+pip install --upgrade
+
 # import fitted data
 path_result_cal = '04_StPeterFragment1_532_1800_50x_100p_4x1s_image_LMFit_PsdVgt1070to1100_up200cal.csv'
 data_results_cal = pd.read_csv(path_result_cal, sep=';', engine='python', header=0, index_col=(0))
