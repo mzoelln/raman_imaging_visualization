@@ -4,8 +4,47 @@ import numpy as np
 import pandas as pd
 import math
 
-# Generate some random data
-data = image_fwhm_cal
+# import data files
+path_root = '230628_StPeterFragment1'
+path = path_root + '\\04_StPeterFragment1_532_1800_50x_100p_4x1s_image.txt'
+
+data = pd.read_csv(path, sep=None, engine='python', header=None).T
+
+coor_cols = {'Y coor': data.loc[0], 'X coor': data.loc[1]}
+coor = pd.DataFrame(data=coor_cols)
+coor = coor.dropna(axis=0)
+coor = coor.reset_index(drop=True)
+step_size = round(abs(coor['X coor'][0] - coor['X coor'][1])) # get distance between pixels; for correct tick annotations in image later
+
+# calculate extent of image
+# use coor.max() and .min() to get whole distance
+# divide with step size to get correct number of pixels
+# add 0.5 micrometer since measurement points are in the middle of pixel
+# round up to get whole numbers
+#ext_image = (math.ceil((coor.max()-coor.min())[0]/step_size+0.5), math.ceil((coor.max()-coor.min())[1]/step_size+0.5))
+data = data.dropna(subset=[0])
+data = data.reset_index(drop=True)
+
+# fitted data
+path_result_cal = path_root+'\\04_StPeterFragment1_532_1800_50x_100p_4x1s_image_LMFit_PsdVgt1070to1100_up200cal.csv'
+data_results_cal = pd.read_csv(path_result_cal, sep=';', engine='python', header=0, index_col=(0))
+
+# reshape FWHM values from csv
+# FWHM values calcite
+fwhm_cal = pd.DataFrame(np.nan, index = range(len(coor)), columns=['fwhm'])
+xc_cal = pd.DataFrame(np.nan, index = range(len(coor)), columns=['xc'])
+df_extract = data_results_cal.set_index('spectrum no.')
+df_extract.index = df_extract.index.astype(int)
+
+fwhm_cal['fwhm'] = df_extract['psdv1_fwhm']
+image_fwhm_cal = pd.DataFrame(fwhm_cal.values.reshape(ext_image))
+
+xc_cal['xc'] = df_extract['psdv1_center']
+image_xc_cal = pd.DataFrame(xc_cal.values.reshape(ext_image))
+
+
+# load data
+image = image_fwhm_cal
 
 # Define a function to calculate the mean and standard deviation of the selected area
 @st.cache # Use cache decorator to avoid redundant computations
@@ -34,7 +73,7 @@ sidebar = st.sidebar
 # Create a figure and an imshow plot
 fig, ax = plt.subplots()
 ax.set_facecolor("black")
-im = ax.imshow(data, cmap="viridis_r", vmin=3.0, vmax=7.0)
+im = ax.imshow(image, cmap="viridis_r", vmin=3.0, vmax=7.0)
 
 # Display the figure on the app using pyplot function
 st.pyplot(fig)
