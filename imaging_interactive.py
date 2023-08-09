@@ -57,14 +57,14 @@ x = sidebar.slider("Select a value", 0, 100)
 st.image(data, caption="Image data", use_column_width=True)
 
 # Create a custom chart that allows you to draw rectangles on the image with your mouse
-chart_data = pd.DataFrame(
-    np.random.randn(50, 3),
-    columns=["a", "b", "c"])
+#chart_data = pd.DataFrame(
+#    np.random.randn(50, 3),
+#    columns=["a", "b", "c"])
 
-chart = st.draw_chart(chart_data)
+#chart = st.draw_chart(chart_data)
 
 # Get the data of the drawn rectangles from the chart object
-rectangles = chart.selected_data
+#rectangles = chart.selected_data
 
 # Check if there are any rectangles drawn
 #if rectangles:
