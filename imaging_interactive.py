@@ -8,6 +8,8 @@ import math
 path_result_cal = '04_StPeterFragment1_532_1800_50x_100p_4x1s_image_LMFit_PsdVgt1070to1100_up200cal.csv'
 data_results_cal = pd.read_csv(path_result_cal, sep=';', engine='python', header=0, index_col=(0))
 
+ext_image = (281, 201)
+
 # reshape FWHM values from csv
 # FWHM values calcite
 fwhm_cal = pd.DataFrame(np.nan, index = range(0, 56481), columns=['fwhm'])
