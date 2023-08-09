@@ -36,7 +36,7 @@ def onselect_function(x1, y1, x2, y2):
     max_y = math.ceil(max(y1, y2))
     
     # Filter the data points that are inside the selected area
-    mask = data.iloc[min_y:max_y+1, min_x:max_x+1]
+    mask = image.iloc[min_y:max_y+1, min_x:max_x+1]
     
     # Calculate the mean and standard deviation of the selected data
     mean = np.nanmean(mask.values)
@@ -59,10 +59,10 @@ im = ax.imshow(image, cmap="viridis_r", vmin=3.0, vmax=7.0)
 st.pyplot(fig)
 
 # Create four slider widgets for selecting an area on the plot
-x1 = sidebar.slider("Select x1", 0, data.shape[1]-1)
-y1 = sidebar.slider("Select y1", 0, data.shape[0]-1)
-x2 = sidebar.slider("Select x2", 0, data.shape[1]-1)
-y2 = sidebar.slider("Select y2", 0, data.shape[0]-1)
+x1 = sidebar.slider("Select x1", 0, image.shape[1]-1)
+y1 = sidebar.slider("Select y1", 0, image.shape[0]-1)
+x2 = sidebar.slider("Select x2", 0, image.shape[1]-1)
+y2 = sidebar.slider("Select y2", 0, image.shape[0]-1)
 
 # Draw a red rectangle on the plot using the slider values
 rect = plt.Rectangle((x1,y1), x2-x1, y2-y1,
