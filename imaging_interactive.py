@@ -55,8 +55,6 @@ fig, ax = plt.subplots()
 ax.set_facecolor("black")
 im = ax.imshow(image, cmap="viridis_r", vmin=3.0, vmax=7.0)
 
-# Display the figure on the app using pyplot function
-st.pyplot(fig)
 
 # Create four slider widgets for selecting an area on the plot
 x1 = sidebar.slider("Select x1", 0, image.shape[1]-1)
