@@ -62,11 +62,11 @@ im = ax.imshow(data, cmap="viridis_r", vmin=3.0, vmax=7.0)
 st.pyplot(fig)
 
 # Create a custom chart that allows you to draw rectangles on the image with your mouse
-#chart_data = pd.DataFrame(
-#    np.random.randn(50, 3),
-#    columns=["a", "b", "c"])
+chart_data = pd.DataFrame(
+    np.random.randn(50, 3),
+    columns=["a", "b", "c"])
 
-#chart = st.draw_chart(chart_data)
+chart = st.draw_chart(chart_data)
 
 # Get the data of the drawn rectangles from the chart object
 #rectangles = chart.selected_data
