@@ -12,7 +12,6 @@ data_results_cal = pd.read_csv(path_result_cal, sep=';', engine='python', header
 ext_image = (281, 201)
 
 # reshape FWHM values from csv
-# FWHM values calcite
 fwhm_cal = pd.DataFrame(np.nan, index = range(0, 56481), columns=['fwhm'])
 xc_cal = pd.DataFrame(np.nan, index = range(0, 56481), columns=['xc'])
 df_extract = data_results_cal.set_index('spectrum no.')
