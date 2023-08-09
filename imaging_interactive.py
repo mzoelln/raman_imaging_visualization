@@ -1,11 +1,9 @@
 import streamlit as st
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import matplotlib.widgets
-from matplotlib.widgets import RectangleSelector
 import numpy as np
 import pandas as pd
 import math
+import plotly.express as px
+import plotly.graph_objects as go
 
 # import fitted data
 path_result_cal = '04_StPeterFragment1_532_1800_50x_100p_4x1s_image_LMFit_PsdVgt1070to1100_up200cal.csv'
@@ -29,6 +27,9 @@ image_xc_cal = pd.DataFrame(xc_cal.values.reshape(ext_image))
 # load data
 data = image_fwhm_cal
 
+# Create an imshow plot with Plotly
+fig = px.imshow(data, color_continuous_scale="viridis_r", zmin=3.0, zmax=7.0)
+
 # Define a function to calculate the mean and standard deviation of the selected area
 @st.cache # Use cache decorator to avoid redundant computations
 def onselect_function(x1, y1, x2, y2):
@@ -47,19 +48,13 @@ def onselect_function(x1, y1, x2, y2):
 
     return mean, std
 
-# Create a title for the app
-st.title("Interactive Plot with Streamlit")
-
-# Create a figure and an imshow plot
-fig, ax = plt.subplots()
-ax.set_facecolor("black")
-im = ax.imshow(data, cmap="viridis_r", vmin=3.0, vmax=7.0)
-
-# Define a callback function for the rectangle selector
-def onselect(eclick, erelease):
+# Define a callback function for the button click
+def button_click(trace, points, state):
     # Get the coordinates of the corners of the rectangle
-    x1, y1 = eclick.xdata, eclick.ydata
-    x2, y2 = erelease.xdata, erelease.ydata
+    x1 = points.xs[0]
+    y1 = points.ys[0]
+    x2 = points.xs[1]
+    y2 = points.ys[1]
     
     # Call the onselect_function to calculate the mean and std of the selected area
     mean, std = onselect_function(x1, y1, x2, y2)
@@ -68,9 +63,34 @@ def onselect(eclick, erelease):
     st.write(f"The mean of the selected area is {mean:.2f}")
     st.write(f"The standard deviation of the selected area is {std:.2f}")
 
-# Create a rectangle selector widget on the plot
-rs = mpl.widgets.RectangleSelector(ax, onselect,
-                                          interactive=True)
+# Create a button that allows you to draw a rectangle on the plot
+button = dict(
+            method="drawopenpath",
+            args=[{"shape": {"type": "rect"}}],
+            label="Draw Rectangle",
+        )
 
-# Display the figure on the app using pyplot function
-st.pyplot(fig)
+# Add the button and a shapes list to the figure layout
+fig.update_layout(
+        updatemenus=[
+            dict(
+                type="buttons",
+                buttons=[button],
+                direction="right",
+                pad={"r": 10, "t": 10},
+                showactive=True,
+                x=0,
+                xanchor="left",
+                y=1,
+                yanchor="top",
+            )
+        ],
+        shapes=[],
+)
+
+# Add a callback function for the button click event
+fig.data[0].on_click(button_click)
+
+# Display the plot on the app using st.plotly_chart
+st.plotly_chart(fig, use_container_width=True)
+
