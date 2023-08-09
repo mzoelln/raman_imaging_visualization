@@ -69,7 +69,6 @@ def onselect(eclick, erelease):
 
 # Create a rectangle selector widget on the plot
 rs = mpl.widgets.RectangleSelector(ax, onselect,
-                                          drawtype='box',
                                           interactive=True)
 
 # Display the figure on the app using pyplot function
