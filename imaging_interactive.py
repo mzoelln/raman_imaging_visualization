@@ -54,7 +54,7 @@ sidebar = st.sidebar
 x = sidebar.slider("Select a value", 0, 100)
 
 # Display your image data on the app using image function
-st.image(data, caption="Image data", use_column_width=True)
+#st.image(data, caption="Image data", use_column_width=True)
 
 # Create a custom chart that allows you to draw rectangles on the image with your mouse
 #chart_data = pd.DataFrame(
