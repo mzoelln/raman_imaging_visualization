@@ -67,15 +67,15 @@ chart = st.draw_chart(chart_data)
 rectangles = chart.selected_data
 
 # Check if there are any rectangles drawn
-if rectangles:
+#if rectangles:
     # Loop through the rectangles
-    for i, rectangle in enumerate(rectangles):
+#    for i, rectangle in enumerate(rectangles):
         # Get the coordinates of the rectangle
-        x1, y1 = rectangle["geometry"]["coordinates"][0][0]
-        x2, y2 = rectangle["geometry"]["coordinates"][0][2]
+#        x1, y1 = rectangle["geometry"]["coordinates"][0][0]
+#        x2, y2 = rectangle["geometry"]["coordinates"][0][2]
 
         # Call the onselect_function with the coordinates and get the mean and std dev of the selected area
-        mean, std = onselect_function(x1, y1, x2, y2)
+ #       mean, std = onselect_function(x1, y1, x2, y2)
 
         # Display the mean and std dev on the app with the color of the rectangle
-        st.write(f"Rectangle {i+1} ({COLORS[i]}): Mean: {mean:.2f}, Standard deviation: {std:.2f}")
+ #       st.write(f"Rectangle {i+1} ({COLORS[i]}): Mean: {mean:.2f}, Standard deviation: {std:.2f}")
