@@ -73,7 +73,3 @@ rs = mpl.widgets.RectangleSelector(ax, onselect,
 
 # Display the figure on the app using pyplot function
 st.pyplot(fig)
-
-
-# Display the figure on the app using pyplot function
-st.pyplot(fig)
