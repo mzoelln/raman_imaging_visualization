@@ -1,4 +1,5 @@
 import streamlit as st
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -66,7 +67,7 @@ def onselect(eclick, erelease):
     st.write(f"The standard deviation of the selected area is {std:.2f}")
 
 # Create a rectangle selector widget on the plot
-rs = matplotlib.widgets.RectangleSelector(ax, onselect,
+rs = mpl.widgets.RectangleSelector(ax, onselect,
                                           drawtype='box',
                                           interactive=True)
 
