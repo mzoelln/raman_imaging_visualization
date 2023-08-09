@@ -63,29 +63,19 @@ def button_click(trace, points, state):
     st.write(f"The mean of the selected area is {mean:.2f}")
     st.write(f"The standard deviation of the selected area is {std:.2f}")
 
-# Create a button that allows you to draw a rectangle on the plot
+# Create a custom modebar button that allows you to draw a rectangle on the plot
 button = dict(
             method="drawopenpath",
             args=[{"shape": {"type": "rect"}}],
-            label="Draw Rectangle",
+            name="Draw Rectangle",
+            icon={"width": 512,
+                  "height": 512,
+                  "path": "M512 256c0 141.385-114.615 256-256 256S0 397.385 0 256 114.615 0 256 0s256 114.615 256 256z m-77.154-128h-307.692c-14.769 0-26.769 12-26.769 26.769v230.462c0 14.769 12 26.769 26.769 26.769h307.692c14.769 0 26.769-12 26.769-26.769V154.769c0-14.769-12-26.769-26.769-26.769z"}
         )
 
-# Add the button and a shapes list to the figure layout
-fig.update_layout(
-        updatemenus=[
-            dict(
-                type="buttons",
-                buttons=[button],
-                direction="right",
-                pad={"r": 10, "t": 10},
-                showactive=True,
-                x=0,
-                xanchor="left",
-                y=1,
-                yanchor="top",
-            )
-        ],
-        shapes=[],
+# Add the custom modebar button to the figure config
+config = dict(
+        modeBarButtonsToAdd=[button]
 )
 
 # Add a callback function for the button click event
