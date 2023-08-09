@@ -24,7 +24,7 @@ xc_cal['xc'] = df_extract['psdv1_center']
 image_xc_cal = pd.DataFrame(xc_cal.values.reshape(ext_image))
 
 # load data
-image = image_fwhm_cal
+data = image_fwhm_cal
 
 # Define a function to calculate the mean and standard deviation of the selected area
 @st.cache # Use cache decorator to avoid redundant computations
