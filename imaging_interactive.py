@@ -36,7 +36,7 @@ def onselect_function(x1, y1, x2, y2):
     max_y = math.ceil(max(y1, y2))
     
     # Filter the data points that are inside the selected area
-    mask = image.iloc[min_y:max_y+1, min_x:max_x+1]
+    mask = data.iloc[min_y:max_y+1, min_x:max_x+1]
     
     # Calculate the mean and standard deviation of the selected data
     mean = np.nanmean(mask.values)
@@ -50,32 +50,32 @@ st.title("Interactive Plot with Streamlit")
 # Create a sidebar for the widgets
 sidebar = st.sidebar
 
-# Create a figure and an imshow plot
-fig, ax = plt.subplots()
-ax.set_facecolor("black")
-im = ax.imshow(image, cmap="viridis_r", vmin=3.0, vmax=7.0)
+# Create a slider widget for selecting a value
+x = sidebar.slider("Select a value", 0, 100)
 
+# Display your image data on the app using image function
+st.image(data, caption="Image data", use_column_width=True)
 
-# Create four slider widgets for selecting an area on the plot
-x1 = sidebar.slider("Select x1", 0, image.shape[1]-1)
-y1 = sidebar.slider("Select y1", 0, image.shape[0]-1)
-x2 = sidebar.slider("Select x2", 0, image.shape[1]-1)
-y2 = sidebar.slider("Select y2", 0, image.shape[0]-1)
+# Create a custom chart that allows you to draw rectangles on the image with your mouse
+chart_data = pd.DataFrame(
+    np.random.randn(50, 3),
+    columns=["a", "b", "c"])
 
-# Draw a red rectangle on the plot using the slider values
-rect = plt.Rectangle((x1,y1), x2-x1, y2-y1,
-                     facecolor='none',
-                     edgecolor='black',
-                     linewidth=2,
-                     alpha=0.5)
-ax.add_patch(rect)
+chart = st.draw_chart(chart_data)
 
-# Display the updated figure on the app using pyplot function
-st.pyplot(fig)
+# Get the data of the drawn rectangles from the chart object
+rectangles = chart.selected_data
 
-# Call the onselect_function with the slider values and get the mean and std dev of the selected area
-mean, std = onselect_function(x1,y1,x2,y2)
+# Check if there are any rectangles drawn
+if rectangles:
+    # Loop through the rectangles
+    for i, rectangle in enumerate(rectangles):
+        # Get the coordinates of the rectangle
+        x1, y1 = rectangle["geometry"]["coordinates"][0][0]
+        x2, y2 = rectangle["geometry"]["coordinates"][0][2]
 
-# Display the mean and std dev on the app
-st.write(f"Mean: {mean:.2f}")
-st.write(f"Standard deviation: {std:.2f}")
+        # Call the onselect_function with the coordinates and get the mean and std dev of the selected area
+        mean, std = onselect_function(x1, y1, x2, y2)
+
+        # Display the mean and std dev on the app with the color of the rectangle
+        st.write(f"Rectangle {i+1} ({COLORS[i]}): Mean: {mean:.2f}, Standard deviation: {std:.2f}")
