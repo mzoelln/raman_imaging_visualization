@@ -1,6 +1,7 @@
 import streamlit as st
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.widgets
 from matplotlib.widgets import RectangleSelector
 import numpy as np
 import pandas as pd
