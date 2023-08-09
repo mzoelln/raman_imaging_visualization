@@ -53,8 +53,13 @@ sidebar = st.sidebar
 # Create a slider widget for selecting a value
 x = sidebar.slider("Select a value", 0, 100)
 
-# Display your image data on the app using image function
-#st.image(data, caption="Image data", use_column_width=True)
+# Create a figure and an imshow plot
+fig, ax = plt.subplots()
+ax.set_facecolor("black")
+im = ax.imshow(data, cmap="viridis_r", vmin=3.0, vmax=7.0)
+
+# Display the figure on the app using pyplot function
+st.pyplot(fig)
 
 # Create a custom chart that allows you to draw rectangles on the image with your mouse
 #chart_data = pd.DataFrame(
